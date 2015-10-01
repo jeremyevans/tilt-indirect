@@ -1,0 +1,55 @@
+= tilt-indirect
+
+tilt-indirect adds indirection for tilt templates.  For example, you
+can have a foo.indirect template that when render renders a separate
+template (e.g. /path/to/bar.erb).
+
+= Installation
+
+  gem install tilt-indirect
+
+= Source Code
+
+Source code is available on GitHub at https://github.com/jeremyevans/tilt-indirect
+
+= Usage
+
+The main use case for this library is when you have an application/framework that
+only deals with relative template paths, and you would like to use an template
+included outside that location.  You can add an indirection file, which when
+rendered will render the referenced file.  Unlike when using a symlink, the
+indirection template is ruby code instead of a static value.
+
+If you are using bootstrap-sass and would like to have a template that renders
+a file contained in the gem, you could have the indirection template contain:
+
+  # bootstrap_scss.indirect
+  Bootstrap.stylesheets_path + '_bootstrap.scss'
+
+And then rendering it would render the template from the gem:
+
+  Tilt.new('boostrap_scss.indirect').render
+
+tilt-indirect also supports raw indirections, where the indirection template
+still returns a file name, but the content of that file is returned directly
+instead of being processed via tilt.  This is useful if you are trying to load
+a raw asset file, such as a .js file:
+
+  # bootstrap_js.indirectraw
+  Bootstrap.javascripts_path + '/bootstrap.js'
+
+Rendering that template is just like the previous template:
+
+  Tilt.new('boostrap_js.indirectraw').render
+
+Because the indirection templates are using ruby code to determine the path,
+you will not need to modify them when you update to newer versions of the
+bootstrap-sass gem.
+
+= License
+
+MIT
+
+= Author
+
+Jeremy Evans <code@jeremyevans.net>
