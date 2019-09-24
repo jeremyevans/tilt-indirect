@@ -17,4 +17,5 @@ template (e.g. /path/to/bar.erb).
 END
   s.add_dependency('tilt')
   s.add_development_dependency('minitest')
+  s.add_development_dependency "minitest-global_expectations"
 end
